@@ -36,7 +36,7 @@ def ImageScaling(Pic, Ratio = 1):
     return Pic.resize((new_weight, new_height),Image.ANTIALIAS)     #图片缩放到指定高宽大小
 
 for file in os.listdir(dir):
-    if CheckFileIsPic2(PicDir = file):
+    if CheckFileIsPic1(PicDir = file):
         PicFile = Image.open(dir + file)                            #打开图片
         FileFormat = PicFile.format
         PicFile = ImageScaling(PicFile, 2)
