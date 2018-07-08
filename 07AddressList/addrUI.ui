@@ -1,45 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>allForm</class>
+ <widget class="QWidget" name="allForm">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>410</width>
-    <height>511</height>
+    <width>391</width>
+    <height>491</height>
    </rect>
   </property>
-  <property name="cursor">
-   <cursorShape>ArrowCursor</cursorShape>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
+  <property name="contextMenuPolicy">
+   <enum>Qt::CustomContextMenu</enum>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
+     <x>0</x>
+     <y>0</y>
      <width>391</width>
      <height>491</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="allVerticalLayout" stretch="0">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
     <item>
-     <widget class="QWidget" name="widget" native="true">
+     <widget class="QWidget" name="allWidget" native="true">
       <widget class="QWidget" name="horizontalLayoutWidget">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>450</y>
-         <width>391</width>
+         <width>381</width>
          <height>41</height>
         </rect>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout" stretch="6,2,2">
+       <layout class="QHBoxLayout" name="button_horizontalLayout" stretch="6,2,2">
         <item>
-         <widget class="QFrame" name="frame">
+         <widget class="QFrame" name="frame_blank">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -49,14 +61,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="ok_button">
+         <widget class="QPushButton" name="pushButton_ok">
           <property name="text">
            <string>确定</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="pushButton_cancel">
           <property name="text">
            <string>取消</string>
           </property>
@@ -73,7 +85,7 @@
          <height>221</height>
         </rect>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,3,1,0">
+       <layout class="QVBoxLayout" name="verticalLayout_info" stretch="1,3,1,0">
         <property name="leftMargin">
          <number>2</number>
         </property>
@@ -84,26 +96,44 @@
          <number>2</number>
         </property>
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="label_addr">
           <property name="text">
            <string>地址：</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="textEdit"/>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>备注：</string>
+         <widget class="QTextEdit" name="textEdit_addr">
+          <property name="cursor" stdset="0">
+           <cursorShape>IBeamCursor</cursorShape>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="textEdit_2"/>
+         <widget class="QLabel" name="label_info">
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="text">
+           <string>备注：</string>
+          </property>
+          <property name="margin">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTextEdit" name="textEdit_info">
+          <property name="cursor" stdset="0">
+           <cursorShape>IBeamCursor</cursorShape>
+          </property>
+         </widget>
         </item>
        </layout>
+       <zorder>textEdit_addr</zorder>
+       <zorder>textEdit_info</zorder>
+       <zorder>label_info</zorder>
+       <zorder>label_addr</zorder>
       </widget>
       <widget class="QWidget" name="horizontalLayoutWidget_2">
        <property name="geometry">
@@ -114,10 +144,10 @@
          <height>231</height>
         </rect>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QHBoxLayout" name="horizontalLayout_mainInfo">
         <item>
-         <widget class="QWidget" name="widget_2" native="true">
-          <widget class="QFrame" name="frame_2">
+         <widget class="QWidget" name="widget_mainInfo" native="true">
+          <widget class="QFrame" name="photo_frame">
            <property name="geometry">
             <rect>
              <x>240</x>
@@ -132,8 +162,18 @@
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
+           <widget class="QGraphicsView" name="graphicsView">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>0</y>
+              <width>120</width>
+              <height>191</height>
+             </rect>
+            </property>
+           </widget>
           </widget>
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="label_name">
            <property name="geometry">
             <rect>
              <x>30</x>
@@ -146,7 +186,7 @@
             <string>姓名</string>
            </property>
           </widget>
-          <widget class="QLineEdit" name="lineEdit">
+          <widget class="QLineEdit" name="lineEdit_name">
            <property name="geometry">
             <rect>
              <x>30</x>
@@ -156,7 +196,7 @@
             </rect>
            </property>
           </widget>
-          <widget class="QLabel" name="label_4">
+          <widget class="QLabel" name="label_tel">
            <property name="geometry">
             <rect>
              <x>30</x>
@@ -169,7 +209,7 @@
             <string>电话</string>
            </property>
           </widget>
-          <widget class="QLineEdit" name="lineEdit_2">
+          <widget class="QLineEdit" name="lineEdit_tel">
            <property name="geometry">
             <rect>
              <x>30</x>
@@ -178,8 +218,14 @@
              <height>20</height>
             </rect>
            </property>
+           <property name="maxLength">
+            <number>12</number>
+           </property>
+           <property name="echoMode">
+            <enum>QLineEdit::Normal</enum>
+           </property>
           </widget>
-          <widget class="QLabel" name="label_5">
+          <widget class="QLabel" name="label_group">
            <property name="geometry">
             <rect>
              <x>150</x>
@@ -192,7 +238,7 @@
             <string>分组</string>
            </property>
           </widget>
-          <widget class="QComboBox" name="comboBox">
+          <widget class="QComboBox" name="comboBox_group">
            <property name="geometry">
             <rect>
              <x>148</x>
@@ -202,7 +248,7 @@
             </rect>
            </property>
           </widget>
-          <widget class="QLabel" name="label_6">
+          <widget class="QLabel" name="label_birthday">
            <property name="geometry">
             <rect>
              <x>30</x>
@@ -215,7 +261,7 @@
             <string>生日</string>
            </property>
           </widget>
-          <widget class="QDateEdit" name="dateEdit">
+          <widget class="QDateEdit" name="dateEdit_birthday">
            <property name="geometry">
             <rect>
              <x>30</x>
@@ -225,7 +271,7 @@
             </rect>
            </property>
           </widget>
-          <widget class="QLabel" name="label_7">
+          <widget class="QLabel" name="label_email">
            <property name="geometry">
             <rect>
              <x>30</x>
@@ -238,7 +284,7 @@
             <string>邮箱</string>
            </property>
           </widget>
-          <widget class="QLineEdit" name="lineEdit_9">
+          <widget class="QLineEdit" name="lineEdit_email">
            <property name="geometry">
             <rect>
              <x>30</x>
@@ -248,7 +294,7 @@
             </rect>
            </property>
           </widget>
-          <widget class="QCheckBox" name="checkBox">
+          <widget class="QCheckBox" name="checkBox_like">
            <property name="geometry">
             <rect>
              <x>170</x>
@@ -264,9 +310,9 @@
           <widget class="Line" name="line">
            <property name="geometry">
             <rect>
-             <x>0</x>
+             <x>-10</x>
              <y>220</y>
-             <width>391</width>
+             <width>401</width>
              <height>20</height>
             </rect>
            </property>
@@ -274,6 +320,19 @@
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
+          <zorder>photo_frame</zorder>
+          <zorder>label_name</zorder>
+          <zorder>lineEdit_name</zorder>
+          <zorder>label_tel</zorder>
+          <zorder>lineEdit_tel</zorder>
+          <zorder>label_group</zorder>
+          <zorder>label_birthday</zorder>
+          <zorder>dateEdit_birthday</zorder>
+          <zorder>label_email</zorder>
+          <zorder>lineEdit_email</zorder>
+          <zorder>checkBox_like</zorder>
+          <zorder>line</zorder>
+          <zorder>comboBox_group</zorder>
          </widget>
         </item>
        </layout>
@@ -284,5 +343,41 @@
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton_ok</sender>
+   <signal>clicked()</signal>
+   <receiver>allForm</receiver>
+   <slot>okButtonEvent()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>265</x>
+     <y>472</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>239</x>
+     <y>587</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_cancel</sender>
+   <signal>clicked()</signal>
+   <receiver>allForm</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>365</x>
+     <y>470</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>361</x>
+     <y>586</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>okButtonEvent()</slot>
+ </slots>
 </ui>

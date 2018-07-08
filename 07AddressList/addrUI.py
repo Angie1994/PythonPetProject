@@ -6,7 +6,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import  *
-from addUI2 import Ui_Form
+from addrUI2 import Ui_allForm
 
 class addrWholeUI(object):
     def setUI(self):
@@ -18,8 +18,6 @@ class addrWholeUI(object):
         #self.setLayout(self.mainLayout)
         #self.setFixedSize(680, 440)
         self.setFixedSize(self.width(), self.height())  # 将文本框设置为窗体的中心控件，填补其余的空白
-
-        self.operateUI = childrenListUI()
 
     def createAllObj(self):
         horizontalHeader = ["姓名", "电话", "分组","收藏"]
@@ -51,7 +49,7 @@ class addrWholeUI(object):
         self.addButton = QtWidgets.QPushButton("新增")
         self.delButton = QtWidgets.QPushButton("删除")
         self.chgButton = QtWidgets.QPushButton("修改")
-        self.flgButton = QtWidgets.QPushButton("标记")
+        self.flgButton = QtWidgets.QPushButton("显示收藏")
         self.addButton.clicked.connect(self.addAddr)
         self.delButton.clicked.connect(self.delAddr)
         self.chgButton.clicked.connect(self.chgAddr)
@@ -82,11 +80,11 @@ class addrWholeUI(object):
         helpAction = QAction(QIcon("G:\\python\\project\\PythonPetProject\\07AddressList\\icon\\help.png"), "帮助", self)
         helpAction.setShortcut("Ctrl+H")  # 快捷键
         helpAction.setStatusTip("帮助信息")  # 显示到状态栏
-        # chgAction.triggered.connect(self.close)  # 连接信号
+        #helpAction.triggered.connect(self.selectAboutQt)  # 连接信号
 
         aboutAction = QAction(QIcon(""), "关于", self)
         aboutAction.setStatusTip("关于软件")  # 显示到状态栏
-        # chgAction.triggered.connect(self.close)  # 连接信号
+        aboutAction.triggered.connect(self.selectAbout)  # 连接信号
 
         self.statusBar()                            #添加状态栏
 
@@ -126,6 +124,7 @@ class addrWholeUI(object):
 
         self.setCentralWidget(self.wholeSplitter)
 
+
     def createComBoBox(self, argv):
         self.ComboItem = argv;
 
@@ -135,20 +134,20 @@ class addrWholeUI(object):
             #在表格中新插一行
             row_count = self.table.rowCount()
             self.table.insertRow(row_count)
-            for x in range(1, len(entry)):
-                if x == 3:
+            for x in range(0, len(entry)):
+                if x == 2:
                     self.groupComb = QComboBox()
                     for groupName in self.ComboItem:
                         self.groupComb.addItem(groupName[0])
                     self.groupComb.setCurrentText(entry[x])
-                    self.table.setCellWidget(row_count, x - 1, self.groupComb)  # 将对象放入表格中
-                elif x == 4:
+                    self.table.setCellWidget(row_count, x, self.groupComb)  # 将对象放入表格中
+                elif x == 3:
                     self.checkBox1 = QCheckBox()
-                    if entry[x] != None:
+                    if entry[x] != '0':
                         self.checkBox1.setChecked(True)
-                    self.table.setCellWidget(row_count, x - 1, self.checkBox1)
+                    self.table.setCellWidget(row_count, x, self.checkBox1)
                 else:
-                    self.table.setItem(row_count, x - 1, QTableWidgetItem(entry[x]))
+                    self.table.setItem(row_count, x, QTableWidgetItem(entry[x]))
 
     def removeTable(self):
         self.table.clearContents();
@@ -157,19 +156,89 @@ class addrWholeUI(object):
             self.table.removeRow(x)
 
     def addAddr(self):
-        print("add")
+        self.operateUI = childrenListUI(title='添加联系人')  # 新开一个窗口
+        self.operateUI.retSignal.connect(self.addAddrRefresh)
         self.operateUI.show()
-        pass
 
     def delAddr(self):
-        print("del")
-        pass
+        try:
+            Data = self.table.item(self.table.currentRow(), 1).text()
+            self.delARowData(Data)
+        except:
+            pass
 
     def chgAddr(self):
-        print("chg")
-        pass
+        '''解决方法：再设置一个tei作为key，在更新的时候将tel传到'''
+        Data = self.table.item(self.table.currentRow(), 1).text()
+        getData = self.getARowData(Data)
+        print("Chg:",getData)
+        self.operateUI = childrenListUI(title = '修改联系人',
+                                        name  = getData[0],
+                                        tel   = getData[1],
+                                        agroup= getData[2],
+                                        flag  = getData[3],
+                                        email = getData[4],
+                                        address=getData[5],
+                                        remark =getData[6],
+                                        birthday=getData[7])
+        self.operateUI.retSignal.connect(self.updateAddrRefresh)
+        self.operateUI.show()
 
-class childrenListUI(QWidget,Ui_Form):
-    def __init__(self):
+    def selectAbout(self):
+        # 简介信息框，只有一个YES按钮
+        QMessageBox.about(self, "关于", "通讯录 version 1.0\nCopyright 2018 TangJ.\n All Right reserved.")
+
+
+
+class childrenListUI(QWidget,Ui_allForm):
+    retSignal = pyqtSignal(dict)        #定义一个信号，信号所携带的内容
+
+    def __init__(self,**argv):
         super(childrenListUI,self).__init__()
+        self.keyValue = ""                  #用于保存修改某些值之前的key值
         self.setupUi(self)
+        self.setWindowTitle(argv['title'])  # 窗体名称
+        print("children window data:", argv)
+        try:
+            if argv['tel'] != None:
+                self.keyValue = argv['tel'] #保存关键字
+            if argv['flag'] != '0':
+                self.checkBox_like.setChecked(True)
+            self.lineEdit_name.setText(argv['name'])
+            self.lineEdit_tel.setText(argv['tel'])
+            self.lineEdit_email.setText(argv['email'])
+            self.dateEdit_birthday.setDate(argv['birthday'])
+            self.textEdit_info.setText(argv['remark'])
+            self.lineEdit_group.setText(argv['agroup'])
+            self.textEdit_addr.setText(argv['address'])
+        except:
+            pass
+
+    def okButtonEvent(self):
+        #设置好的新值
+        name = self.lineEdit_name.text()
+        tel = self.lineEdit_tel.text()
+        email = self.lineEdit_email.text()
+        birthday = self.dateEdit_birthday.text()
+        agroup = self.lineEdit_group.text()
+        flag = self.checkBox_like.checkState()
+        address = self.textEdit_addr.toPlainText()
+        remark = self.textEdit_info.toPlainText()
+
+        #修改之前的关键KEY
+
+        keyvalue = self.keyValue
+        getData = {
+            'name' : name,
+            'tel' : tel,
+            'email' : email,
+            'birthday' : birthday,
+            'agroup' : agroup,
+            'flag' : flag,
+            'address' : address,
+            'remark' : remark,
+            'keyvalue' : keyvalue
+        }
+
+        self.retSignal.emit(getData)      #将pList信号发射出去，getData数据类型应该是list的
+        self.close()                      #关闭窗口
